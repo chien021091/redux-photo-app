@@ -39,8 +39,6 @@ axiosClient.interceptors.request.use(async config => {
         const token = await currentUser.getIdToken();
         config.headers.Authorization = `Bearer ${token}`;
     } */
-
-    debugger;
     const token = await getFireBaseToken();
     if(token){
         config.headers.Authorization = `Bearer ${token}`;

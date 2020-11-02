@@ -7,6 +7,9 @@ import Header from './components/Header';
 import productApi from 'api/productApi';
 import SignIn from 'features/Auth/pages/SignIn';
 import firebase from 'firebase';
+import { useDispatch } from 'react-redux';
+import { getMe } from 'app/userSlice';
+import { unwrapResult } from '@reduxjs/toolkit';
 
 const Photo = React.lazy(() => import('./features/Photo'));
 
@@ -20,6 +23,7 @@ firebase.initializeApp(config);
 function App() {
   // save on state, or save on redux ....
   const [productList, setProductList ] = useState([]);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchProductList = async () => {
@@ -46,11 +50,16 @@ function App() {
           return;
         }   
 
-        console.log("Logged in user: ", user.displayName);
+        //get me when sign In
+        const action = getMe();
+        const actionResult = await dispatch(action);
 
-        const token = await user.getIdToken();
+        const currentUser = unwrapResult(actionResult);
 
-        console.log("Logged in user token: ", token);
+        console.log("currentUser", currentUser);
+        //console.log("Logged in user: ", user.displayName);
+        //const token = await user.getIdToken();
+        //console.log("Logged in user token: ", token);
         //this.setState({isSignedIn: !!user})
       }
     );
