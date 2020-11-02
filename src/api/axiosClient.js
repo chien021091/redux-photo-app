@@ -1,5 +1,29 @@
 import axios from 'axios';
 import queryString from 'query-string';
+import firebase from 'firebase';
+
+const getFireBaseToken = async () => {
+    const currentUser = firebase.auth().currentUser;
+    if(currentUser) return currentUser.getIdToken();
+
+    return new Promise((resolve, reject) => {
+        const waitTimer = setTimeout(() => {
+            reject(null);
+        }, 10000)
+
+        const unregisterAuthObserver = firebase.auth().onAuthStateChanged(async (user) => {
+            if(!user){
+              reject(null);
+            }
+    
+            const token = await user.getIdToken();
+            resolve(token);
+            unregisterAuthObserver();
+            clearTimeout(waitTimer);
+          }
+        );
+    });
+}
 
 const axiosClient = axios.create({
     baseURL: process.env.REACT_APP_API,
@@ -10,6 +34,18 @@ const axiosClient = axios.create({
 });
 
 axiosClient.interceptors.request.use(async config => {
+    /* const currentUser = firebase.auth().currentUser;
+    if(currentUser){
+        const token = await currentUser.getIdToken();
+        config.headers.Authorization = `Bearer ${token}`;
+    } */
+
+    debugger;
+    const token = await getFireBaseToken();
+    if(token){
+        config.headers.Authorization = `Bearer ${token}`;
+    }
+
     return config;
 })
 
