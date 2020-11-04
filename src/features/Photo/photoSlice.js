@@ -1,6 +1,6 @@
 import { createSlice }  from "@reduxjs/toolkit";
 
-const initialPhotos = [
+/* const initialPhotos = [
     {
       id: 91176,
       categoryId: 5,
@@ -73,7 +73,9 @@ const initialPhotos = [
       photo: 'https://picsum.photos/id/649/300/300',
       title: 'Id ex enim non dolore reprehenderit eu ullamco.'
     },
-  ];
+  ]; */
+
+const initialPhotos = [];
 
 const photo = createSlice({
     name: 'photos',
@@ -91,10 +93,15 @@ const photo = createSlice({
             const newPhoto = action.payload;
             const index = state.findIndex(p => p.id === newPhoto.id);
             if(index > -1)  state[index] = newPhoto;        
+        },
+        updateListPhoto(state, action){
+          state = action.payload;
+          return state;
         }
     }
 });
 
 const { reducer : photoReducer, actions } = photo;
-export const { addPhoto, removePhoto, updatePhoto } = actions;
+console.log("actions", actions);
+export const { addPhoto, removePhoto, updatePhoto, updateListPhoto } = actions;
 export default photoReducer;

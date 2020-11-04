@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { Container } from "reactstrap";
 import { Link, useHistory } from "react-router-dom";
@@ -6,7 +6,8 @@ import Banner from "components/Banner";
 import images from "constants/images";
 import { useDispatch, useSelector } from "react-redux";
 import PhotoList from "features/Photo/components/PhotoList";
-import { removePhoto } from "features/Photo/photoSlice";
+import { removePhoto, updateListPhoto } from "features/Photo/photoSlice";
+import photoApi from "api/photoApi";
 
 MainPage.propTypes = {};
 
@@ -17,6 +18,29 @@ function MainPage(props) {
 
   const photos = useSelector(state => state.photos);
   console.log("List of Photos", photos);
+
+
+  useEffect(() => {
+    const fetchPhotoList = async () => {
+      try{
+        const params = {};
+        const response = await photoApi.getAll(params);
+        const lstPhoto = response.listResult.reduce((curr, p) => {
+          const {id, title, photo} = p;
+          curr.push({id, title, photo});
+          return curr;
+        }, []);
+        debugger;
+        const action = updateListPhoto(lstPhoto);
+        dispatch(action);
+
+        console.log(response);
+      }catch(e){
+        console.log("Failed to fetch photos list ", e);
+      }
+    }
+    fetchPhotoList();
+  }, []);
 
   const handlePhotoEditClick = photo => {
     console.log("Photo Edit", photo);

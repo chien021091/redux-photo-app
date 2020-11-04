@@ -26,7 +26,7 @@ const getFireBaseToken = async () => {
 }
 
 const axiosClient = axios.create({
-    baseURL: process.env.REACT_APP_API,
+    baseURL: process.env.SPRING_APP_API,
     headers: {
         'content-type' : 'application/json'
     },
@@ -39,10 +39,10 @@ axiosClient.interceptors.request.use(async config => {
         const token = await currentUser.getIdToken();
         config.headers.Authorization = `Bearer ${token}`;
     } */
-    const token = await getFireBaseToken();
+    /* const token = await getFireBaseToken();
     if(token){
         config.headers.Authorization = `Bearer ${token}`;
-    }
+    } */
 
     return config;
 })

@@ -25,7 +25,7 @@ function App() {
   const [productList, setProductList ] = useState([]);
   const dispatch = useDispatch();
 
-  useEffect(() => {
+  /* useEffect(() => {
     const fetchProductList = async () => {
       try{
         const params = {
@@ -40,7 +40,7 @@ function App() {
       }
     }
     fetchProductList();
-  }, []);
+  }, []); */
 
   //handle firebase auth change
   useEffect(() => {
