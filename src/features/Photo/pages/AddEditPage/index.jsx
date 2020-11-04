@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import "./styles.scss";
 import Banner from "components/Banner";
@@ -6,14 +6,13 @@ import PhotoForm from "features/Photo/components/PhotoForm";
 import { useDispatch, useSelector } from "react-redux";
 import { addPhoto, updatePhoto } from "features/Photo/photoSlice";
 import { useHistory, useParams } from "react-router-dom";
-import { randomNumber } from "utils/common";
+import photoApi from "api/photoApi";
 
 AddEditPage.propTypes = {};
 
 function AddEditPage(props) {
 
   const { photoId } = useParams();
-  console.log("photoId", photoId);
   const isAddMode = !photoId;
   const editPhoto = useSelector(state => state.photos.find(p => p.id === +photoId));
 
@@ -27,29 +26,20 @@ function AddEditPage(props) {
   const dispatch = useDispatch();
   const history = useHistory();
 
+  const handleSubmit = async values => {
+    console.log("Form Submit", values);
 
-  const handleSubmit = values => {
-    return new Promise(resolve => {
-      console.log("Form Submit", values);
+    if(isAddMode){
+      const newPhoto =  await photoApi.addNew(values);
+      const action = addPhoto(newPhoto);
+      dispatch(action);
+    } else {
+      const newPhoto = await photoApi.updatePhoto(values);
+      const action = updatePhoto(newPhoto);
+      dispatch(action);
+    }
 
-      setTimeout(() => {
-        if(isAddMode){
-          const newPhoto = {
-            ...values,
-            id: randomNumber(10000, 99999)
-          }
-          const action = addPhoto(newPhoto);
-          dispatch(action);
-        } else {
-          const action = updatePhoto(values);
-          dispatch(action);
-        }
-
-        history.push('/photos');
-        resolve(true);
-      }, 2000)     
-    })
-    
+    history.push('/photos'); 
   }
 
   return (

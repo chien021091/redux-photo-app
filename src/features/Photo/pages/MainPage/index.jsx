@@ -25,13 +25,7 @@ function MainPage(props) {
       try{
         const params = {};
         const response = await photoApi.getAll(params);
-        const lstPhoto = response.listResult.reduce((curr, p) => {
-          const {id, title, photo} = p;
-          curr.push({id, title, photo});
-          return curr;
-        }, []);
-        debugger;
-        const action = updateListPhoto(lstPhoto);
+        const action = updateListPhoto(response.listResult);
         dispatch(action);
 
         console.log(response);
@@ -47,13 +41,19 @@ function MainPage(props) {
     history.push(`/photos/${photo.id}`);
   }
 
-  const handlePhotoRemoveClick = photo => {
-    
-    console.log("Photo Remove", photo);
+  const handlePhotoRemoveClick = async photo => {
+    try{
+      console.log("Photo Remove", photo);
 
-    const action = removePhoto(photo);
-    console.log("action", action);
-    dispatch(action);  
+      await photoApi.deletePhoto([photo.id]);
+
+      const action = removePhoto(photo);
+      dispatch(action);  
+    }catch(e){
+      console.log("error remove", e);
+    }
+    
+    
   }
 
   return (

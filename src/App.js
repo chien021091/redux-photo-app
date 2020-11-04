@@ -1,15 +1,16 @@
-import React, { Suspense, useEffect, useState } from 'react';
+import React, { Suspense, useEffect } from 'react';
 import { BrowserRouter, Switch, Redirect, Route } from 'react-router-dom';
 import logo from './logo.svg';
 import './App.css';
 import NotFound from './components/NotFound';
 import Header from './components/Header';
-import productApi from 'api/productApi';
 import SignIn from 'features/Auth/pages/SignIn';
 import firebase from 'firebase';
 import { useDispatch } from 'react-redux';
 import { getMe } from 'app/userSlice';
 import { unwrapResult } from '@reduxjs/toolkit';
+import categoryApi from 'api/categoryApi';
+import { getListCategory } from 'app/categorySlice';
 
 const Photo = React.lazy(() => import('./features/Photo'));
 
@@ -22,25 +23,26 @@ firebase.initializeApp(config);
 
 function App() {
   // save on state, or save on redux ....
-  const [productList, setProductList ] = useState([]);
   const dispatch = useDispatch();
 
-  /* useEffect(() => {
-    const fetchProductList = async () => {
+  useEffect(() => {
+    const fetchCategoryList = async () => {
       try{
-        const params = {
-          _page : 1,
-          _limit : 10
-        }
-        const response = await productApi.getAll(params);
-        setProductList(response.data);
-        console.log(response);
+        const response = await categoryApi.getAll();
+        const lstCats = response.reduce((curr, cat) => {
+          const newCat = {...cat, value : cat.id, label: cat.name};
+          curr.push(newCat);
+          return curr;
+        }, []);
+        const action = getListCategory(lstCats);
+        dispatch(action);
+        console.log("category", lstCats);
       }catch(e){
         console.log("Failed to fetch products list ", e);
       }
     }
-    fetchProductList();
-  }, []); */
+    fetchCategoryList();
+  }, []);
 
   //handle firebase auth change
   useEffect(() => {

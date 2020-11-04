@@ -8,6 +8,7 @@ import InputField from "custom-fields/InputField";
 import SelectField from "custom-fields/SelectField";
 import RandomPhotoField from "custom-fields/RandomPhotoField";
 import * as Yup from 'yup';
+import { useSelector } from "react-redux";
 
 PhotoForm.propTypes = {
   onSubmit: PropTypes.func,
@@ -20,6 +21,8 @@ PhotoForm.defaultProps = {
 function PhotoForm(props) {
   
   const {initialValues, isAddMode} = props;
+
+  const listCategory = useSelector(state => state.category);
 
   const validationScheme = Yup.object().shape({
     title : Yup.string().required("This field is required"),
@@ -57,7 +60,7 @@ function PhotoForm(props) {
               component={SelectField}
               label="Category"
               placeholder="What's your photo category"
-              options={PHOTO_CATEGORY_OPTIONS}
+              options={listCategory}
             />
 
             <FastField
