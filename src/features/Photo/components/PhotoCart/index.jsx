@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'reactstrap';
 import './PhotoCard.scss';
+import { useSelector } from 'react-redux';
 
 PhotoCard.propTypes = {
     photo : PropTypes.object,
@@ -18,6 +19,7 @@ PhotoCard.defaultProps = {
 function PhotoCard(props) {
 
     const {photo, onEditClick, onRemoveClick } = props;
+    const isLogin = useSelector(state => state.user.isLogin);
 
     const handleEditClick = () => {
         onEditClick(photo);
@@ -34,19 +36,21 @@ function PhotoCard(props) {
             <div className="photo__overlay">
                 <h3 className="photo__title">{photo.title}</h3>
 
-                <div className="photo__actions">
-                <div>
-                    <Button outline size="sm" color="light" onClick={handleEditClick}>
-                    Edit
-                    </Button>
-                </div>
+                {
+                   isLogin &&  <div className="photo__actions">
+                                    <div>
+                                        <Button outline size="sm" color="light" onClick={handleEditClick}>
+                                        Edit
+                                        </Button>
+                                    </div>
 
-                <div>
-                    <Button outline size="sm" color="danger" onClick={handleRemoveClick}>
-                    Remove
-                    </Button>
-                </div>
-                </div>
+                                    <div>
+                                        <Button outline size="sm" color="danger" onClick={handleRemoveClick}>
+                                        Remove
+                                        </Button>
+                                    </div>
+                                </div>
+                }             
             </div>
             </div>
     );

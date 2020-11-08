@@ -4,6 +4,10 @@ import firebase from 'firebase';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import SignInForm from 'features/Auth/components/SignInForm';
 import userApi from 'api/userApi';
+import { useDispatch } from 'react-redux';
+import { saveUser } from 'app/userSlice';
+import { useHistory } from 'react-router-dom';
+import { KEYS_TOKEN_CREDENTIEL, KEYS_USER_CREDENTIEL } from 'constants/keys';
 
 SignIn.propTypes = {
     
@@ -26,20 +30,25 @@ function SignIn(props) {
         password: ""
     };
 
+    const dispatch = useDispatch();
+    const history = useHistory();
+
     const handleSubmit = async values => {
         console.log("Form Submit", values);
 
         const resp = await userApi.signIn(values);
+        const dataUser = {
+            current : resp.user,
+            isLogin : true,
+        }
+        const action = saveUser(dataUser);
+        dispatch(action);
+
+        localStorage.setItem(KEYS_TOKEN_CREDENTIEL  , resp.accessToken);
+        localStorage.setItem(KEYS_USER_CREDENTIEL   , JSON.stringify(resp.user));
 
         console.log("Token", resp);
-    
-        
-          /* const newPhoto = await photoApi.updatePhoto(values);
-          const action = updatePhoto(newPhoto);
-          dispatch(action);
-        
-    
-        history.push('/photos');  */
+        history.push('/photos'); 
       }
 
     return (

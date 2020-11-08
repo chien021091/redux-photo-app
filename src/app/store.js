@@ -6,7 +6,7 @@ import userReducer from './userSlice';
 const rootReducer = {
     photos: photoReducer,
     user : userReducer,
-    category : categoryReducer
+    category : categoryReducer,
 }
 
 const store = configureStore({

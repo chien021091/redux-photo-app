@@ -1,6 +1,7 @@
 import axios from 'axios';
 import queryString from 'query-string';
 import firebase from 'firebase';
+import { KEYS_TOKEN_CREDENTIEL } from 'constants/keys';
 
 const getFireBaseToken = async () => {
     const currentUser = firebase.auth().currentUser;
@@ -43,6 +44,10 @@ axiosClient.interceptors.request.use(async config => {
     if(token){
         config.headers.Authorization = `Bearer ${token}`;
     } */
+    const token = localStorage.getItem(KEYS_TOKEN_CREDENTIEL);
+    if(token){
+        config.headers.Authorization = `Bearer ${token}`;
+    }
 
     return config;
 })

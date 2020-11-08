@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import userApi from "api/userApi";
+import { KEYS_TOKEN_CREDENTIEL, KEYS_USER_CREDENTIEL } from "constants/keys";
 
 export const getMe = createAsyncThunk('user/getMe', async (params, thunkAPI) => {
     const currentUser = await userApi.getMe();
@@ -9,11 +10,17 @@ export const getMe = createAsyncThunk('user/getMe', async (params, thunkAPI) => 
 const userSlice = createSlice({
     name: 'user',
     initialState : {
-        current: {},
+        current: JSON.parse(localStorage.getItem(KEYS_USER_CREDENTIEL)) || {},
         loading: false,
-        error : ''
+        error : '',
+        isLogin : !!localStorage.getItem(KEYS_TOKEN_CREDENTIEL)
     },
-    reducers : {},
+    reducers : {
+        saveUser : (state, action) => {
+            state.current = action.payload.current;
+            state.isLogin = action.payload.isLogin;
+        }
+    },
     extraReducers : {
         [getMe.pending]: (state) => {
             state.loading = true;
@@ -29,5 +36,7 @@ const userSlice = createSlice({
     }
 });
 
-const { reducer : userReducer } = userSlice;
+const { reducer : userReducer, actions } = userSlice;
+
+export const {saveUser} = actions;
 export default userReducer;

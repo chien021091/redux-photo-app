@@ -17,8 +17,8 @@ function MainPage(props) {
   const history = useHistory();
 
   const photos = useSelector(state => state.photos);
-  console.log("List of Photos", photos);
 
+  const isLogin = useSelector(state => state.user.isLogin);
 
   useEffect(() => {
     const fetchPhotoList = async () => {
@@ -44,26 +44,24 @@ function MainPage(props) {
   const handlePhotoRemoveClick = async photo => {
     try{
       console.log("Photo Remove", photo);
-
       await photoApi.deletePhoto([photo.id]);
-
       const action = removePhoto(photo);
       dispatch(action);  
     }catch(e){
       console.log("error remove", e);
     }
-    
-    
   }
 
   return (
     <div className="photo-main">
       <Banner title="Your awesome photos" backgroundUrl={images.PINK_BG} />
 
-      <Container className="text-center">
-        <Link to="/photos/add">Add new Photo</Link>
-      </Container>
-
+      {
+        isLogin && <Container className="text-center">
+                    <Link to="/photos/add">Add new Photo</Link>
+                  </Container>
+      }
+      
       <PhotoList  photoList={photos} onPhotoEditClick={handlePhotoEditClick} onPhotoRemoveClick={handlePhotoRemoveClick} />
 
     </div>
