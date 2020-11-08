@@ -1,4 +1,5 @@
 import firebase from 'firebase';
+import axiosClient from "./axiosClient";
 
 const userApi = {
     getMe : () => {
@@ -16,6 +17,10 @@ const userApi = {
 
             }, 500);
         });
+    },
+    signIn : (data) => {
+        const url = 'http://localhost:8087/api/login';
+        return axiosClient.post(url, data);
     }
 };
 
