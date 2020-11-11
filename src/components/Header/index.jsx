@@ -31,7 +31,7 @@ function Header(props) {
                     <Col xs="auto">
                         <a
                             className="header__link header__title"
-                            href="https://www.youtube.com/watch?v=302PCo3poh4&ab_channel=EasyFrontend"
+                            href="https://www.facebook.com/chien.nhamhiem/"
                             target="_blank"
                             rel="noopener noreferrer">
                             Chien Vlog
