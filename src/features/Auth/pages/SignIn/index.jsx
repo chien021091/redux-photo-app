@@ -8,6 +8,7 @@ import { useDispatch } from 'react-redux';
 import { saveUser } from 'app/userSlice';
 import { useHistory } from 'react-router-dom';
 import { KEYS_TOKEN_CREDENTIEL, KEYS_USER_CREDENTIEL } from 'constants/keys';
+import './styles.scss';
 
 SignIn.propTypes = {
     
@@ -49,14 +50,18 @@ function SignIn(props) {
 
         console.log("Token", resp);
         history.push('/photos'); 
-      }
+    }
+    
+    const handToRegister = () => {
+        history.push("/register");
+    }
 
     return (
         <div className="sign-in">
             <div className="text-center">
                 <h2>Login Form</h2>
                 <div className="sign-in__form">
-                    <SignInForm onSubmit={handleSubmit} initialValues={initialValues} />
+                    <SignInForm onSubmit={handleSubmit} initialValues={initialValues} onClickRegister={handToRegister} />
                 </div>
 
                 <p>or Login with social account</p>

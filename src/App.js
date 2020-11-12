@@ -11,6 +11,7 @@ import { getMe } from 'app/userSlice';
 import { unwrapResult } from '@reduxjs/toolkit';
 import categoryApi from 'api/categoryApi';
 import { getListCategory } from 'app/categorySlice';
+import Register from 'features/Auth/pages/Register';
 
 const Photo = React.lazy(() => import('./features/Photo'));
 
@@ -81,6 +82,7 @@ function App() {
             <Redirect exact from="/" to="/photos" />
             <Route path="/photos" component={Photo} />
             <Route path="/sign-in" component={SignIn} />
+            <Route path="/register" component={Register} />
             <Route component={NotFound} />
           </Switch>
         </BrowserRouter>

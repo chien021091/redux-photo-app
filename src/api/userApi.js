@@ -21,6 +21,10 @@ const userApi = {
     signIn : (data) => {
         const url = 'http://localhost:8087/api/login';
         return axiosClient.post(url, data);
+    },
+    register : (data) => {
+        const url = 'http://localhost:8087/api/register';
+        return axiosClient.post(url, data);
     }
 };
 

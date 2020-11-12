@@ -14,6 +14,7 @@ function Header(props) {
     const isLogin = useSelector(state => state.user.isLogin);
 
     const dispatch = useDispatch();
+    const history = useHistory();
 
     const handleLogout = () => {
         localStorage.removeItem(KEYS_TOKEN_CREDENTIEL);
@@ -22,6 +23,7 @@ function Header(props) {
             isLogin : false
         });
         dispatch(action);
+        history.push("/photos");
     }
 
     return (

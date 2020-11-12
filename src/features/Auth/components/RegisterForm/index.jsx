@@ -1,25 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FastField, Form, Formik } from 'formik';
-import { Button, FormGroup, Spinner } from 'reactstrap';
 import InputField from 'custom-fields/InputField';
+import { Button, FormGroup, Spinner } from 'reactstrap';
 import * as Yup from 'yup';
 
-SignInForm.propTypes = {
+RegisterForm.propTypes = {
     
 };
 
-function SignInForm(props) {
-    const {initialValues, onSubmit, onClickRegister} = props;
+function RegisterForm(props) {
+
+    const {initialValues, onSubmit} = props;
 
     const validationScheme = Yup.object().shape({
         username : Yup.string().required("This field is required"),
-        password : Yup.string().required("This field is required")
+        password : Yup.string().required("This field is required"),
+        fullname : Yup.string().required("This field is required"),
     })
 
-    const handleClickRegister = () => {
-        onClickRegister();
-    }
 
     return (
         <Formik
@@ -49,14 +48,18 @@ function SignInForm(props) {
                 placeholder="Enter your password"
                 />
 
+                <FastField
+                name="fullname"
+                component={InputField}
+                label="Full name"
+                placeholder="Enter your name"
+                />
+
                 <FormGroup>
-                <Button color="primary" type="submit">
-                    {isSubmitting && <Spinner size="sm" />}
-                    Sign In
-                </Button>
-                <Button color="success" type="button" onClick={handleClickRegister}>
-                    Register
-                </Button>
+                    <Button color="primary" type="submit">
+                        {isSubmitting && <Spinner size="sm" />}
+                        Register
+                    </Button>
                 </FormGroup>
             </Form>
             );
@@ -65,4 +68,4 @@ function SignInForm(props) {
     );
 }
 
-export default SignInForm;
+export default RegisterForm;

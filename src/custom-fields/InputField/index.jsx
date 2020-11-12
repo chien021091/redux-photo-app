@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { FormGroup, Label, Input, FormFeedback } from "reactstrap";
 import { ErrorMessage } from "formik";
+import { TextField } from "@material-ui/core";
 
 InputField.propTypes = {
   field: PropTypes.object.isRequired,
@@ -36,6 +37,17 @@ function InputField(props) {
         disabled={disabled}
         invalid={showError}
       />
+      
+      {/* <TextField
+      id={name}
+      {...field}
+      type={type}
+      placeholder={placeholder}
+      disabled={disabled}
+      invalid={showError}
+      fullWidth
+      label={label}
+      /> */}
       <ErrorMessage name={name} component={FormFeedback} />
     </FormGroup>
   );
