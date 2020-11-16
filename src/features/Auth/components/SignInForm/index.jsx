@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FastField, Form, Formik } from 'formik';
-import { Button, FormGroup, Spinner } from 'reactstrap';
+import { FormGroup, Spinner } from 'reactstrap';
 import InputField from 'custom-fields/InputField';
 import * as Yup from 'yup';
+import { Button } from '@material-ui/core';
 
 SignInForm.propTypes = {
     
@@ -40,16 +41,25 @@ function SignInForm(props) {
                 component={InputField}
                 label="Username"
                 placeholder="Enter your username"
+                required="true"
                 />
-
+                
                 <FastField
                 name="password"
                 component={InputField}
                 label="Password"
                 placeholder="Enter your password"
+                required="true"
+                type="password"
                 />
 
-                <FormGroup>
+                <Button variant="contained" color="primary" type="submit">
+                    {isSubmitting && <Spinner size="sm" />}
+                    Sign In
+                </Button>
+                <Button type="button" onClick={handleClickRegister}>Register</Button>
+
+                {/* <FormGroup>
                 <Button color="primary" type="submit">
                     {isSubmitting && <Spinner size="sm" />}
                     Sign In
@@ -57,7 +67,7 @@ function SignInForm(props) {
                 <Button color="success" type="button" onClick={handleClickRegister}>
                     Register
                 </Button>
-                </FormGroup>
+                </FormGroup> */}
             </Form>
             );
         }}

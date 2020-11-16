@@ -22,13 +22,13 @@ InputField.defaultProps = {
 };
 
 function InputField(props) {
-  const { field, form, type, label, placeholder, disabled } = props;
+  const { field, form, type, label, placeholder, disabled, required } = props;
   const { name } = field;
   const {errors, touched} = form;
   const showError = errors[name] && touched[name];
   return (
     <FormGroup>
-      {label && <Label for={name}>{label}</Label>}
+      {/* {label && <Label for={name}>{label}</Label>}
       <Input
         id={name}
         {...field}
@@ -36,9 +36,9 @@ function InputField(props) {
         placeholder={placeholder}
         disabled={disabled}
         invalid={showError}
-      />
-      
-      {/* <TextField
+      /> */}
+  
+      <TextField
       id={name}
       {...field}
       type={type}
@@ -47,7 +47,8 @@ function InputField(props) {
       invalid={showError}
       fullWidth
       label={label}
-      /> */}
+      required={required}
+      />
       <ErrorMessage name={name} component={FormFeedback} />
     </FormGroup>
   );

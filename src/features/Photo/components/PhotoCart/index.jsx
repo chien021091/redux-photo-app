@@ -7,18 +7,20 @@ import { useSelector } from 'react-redux';
 PhotoCard.propTypes = {
     photo : PropTypes.object,
     onEditClick : PropTypes.func,
-    onRemoveClick: PropTypes.func
+    onRemoveClick: PropTypes.func,
+    handleShowClick : PropTypes.func
 };
 
 PhotoCard.defaultProps = {
     photo : {},
     onEditClick: null,
-    onRemoveClick: null
+    onRemoveClick: null,
+    handleShowClick : null
 }
 
 function PhotoCard(props) {
 
-    const {photo, onEditClick, onRemoveClick } = props;
+    const {photo, onEditClick, onRemoveClick, onShowClick } = props;
     const isLogin = useSelector(state => state.user.isLogin);
 
     const handleEditClick = () => {
@@ -27,6 +29,10 @@ function PhotoCard(props) {
 
     const handleRemoveClick = () => {
         onRemoveClick(photo);
+    }
+
+    const handleShowClick = () => {
+        onShowClick(photo);
     }
 
     return (
@@ -47,6 +53,11 @@ function PhotoCard(props) {
                                     <div>
                                         <Button outline size="sm" color="danger" onClick={handleRemoveClick}>
                                         Remove
+                                        </Button>
+                                    </div>
+                                    <div>
+                                        <Button outline size="sm" color="light" onClick={handleShowClick}>
+                                        Detail
                                         </Button>
                                     </div>
                                 </div>

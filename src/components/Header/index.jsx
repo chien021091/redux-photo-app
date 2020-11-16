@@ -6,11 +6,28 @@ import './Header.scss'
 import { KEYS_TOKEN_CREDENTIEL } from 'constants/keys';
 import { saveUser } from 'app/userSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import { AppBar, Button, IconButton, makeStyles, Menu, MenuItem, Toolbar, Typography } from '@material-ui/core';
+import MenuIcon from '@material-ui/icons/Menu';
+import AccountCircle from '@material-ui/icons/AccountCircle';
+
 Header.propTypes = {
 
 };
 
+const useStyles = makeStyles((theme) => ({
+    root: {
+      flexGrow: 1,
+    },
+    menuButton: {
+      marginRight: theme.spacing(2),
+    },
+    title: {
+      flexGrow: 1,
+    },
+  }));
+
 function Header(props) {
+    const classes = useStyles();
     const isLogin = useSelector(state => state.user.isLogin);
 
     const dispatch = useDispatch();
@@ -26,45 +43,77 @@ function Header(props) {
         history.push("/photos");
     }
 
+    const handleLogin = () => {
+        history.push("/sign-in");
+    }
+
+    const [anchorEl, setAnchorEl] = useState(null);
+    const open = Boolean(anchorEl);
+
+
+    const handleMenu = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
     return (
-        <header className="header">
-            <Container>
-                <Row className="justify-content-between">
-                    <Col xs="auto">
-                        <a
-                            className="header__link header__title"
-                            href="https://www.facebook.com/chien.nhamhiem/"
-                            target="_blank"
-                            rel="noopener noreferrer">
-                            Chien Vlog
-                    </a>
-                    </Col>
+        <div className={classes.root}>
+            <AppBar position="static" color="transparent">
+                <Toolbar>
+                <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+                    <MenuIcon />
+                </IconButton>
+                <Typography variant="h6" className={classes.title}>
+                    Photos
+                </Typography>
+                {isLogin && (
+                    <div>
+                        <IconButton
+                            aria-label="account of current user"
+                            aria-controls="menu-appbar"
+                            aria-haspopup="true"
+                            onClick={handleMenu}
+                            color="inherit"
+                        >
+                            <AccountCircle />
+                        </IconButton>
+                        <Menu
+                            id="menu-appbar"
+                            anchorEl={anchorEl}
+                            anchorOrigin={{
+                            vertical: 'top',
+                            horizontal: 'right',
+                            }}
+                            keepMounted
+                            transformOrigin={{
+                            vertical: 'top',
+                            horizontal: 'right',
+                            }}
+                            open={open}
+                            onClose={handleClose}
+                        >
+                            <MenuItem>Profile</MenuItem>
+                            <MenuItem onClick={handleLogout}>Log Out</MenuItem>
+                        </Menu>
+                    </div>
+                )}
+                {
+                    !isLogin && <Button color="inherit" onClick={handleLogin}>Login</Button>
+                }
+                </Toolbar>
+            </AppBar>
+        </div>
 
-                    <Col xs="auto">
-                        {
-                            isLogin && <span
-                                    className="header__link"
-                                    onClick={handleLogout}
-                                >
-                                    Log Out
-                            </span>
-                        }
-                        {
-                            !isLogin && <NavLink
-                                    exact
-                                    className="header__link"
-                                    to="/sign-in"
-                                    activeClassName="header__link--active"
-                                >
-                                    Sign In
-                            </NavLink>
-                        }
-                        
-                    </Col>
-                </Row>
 
-            </Container>
-        </header>
+
+
+
+
+
+        
     );
 }
 

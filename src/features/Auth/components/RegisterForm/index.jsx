@@ -2,8 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FastField, Form, Formik } from 'formik';
 import InputField from 'custom-fields/InputField';
-import { Button, FormGroup, Spinner } from 'reactstrap';
+import { FormGroup, Spinner } from 'reactstrap';
 import * as Yup from 'yup';
+import { Button } from '@material-ui/core';
 
 RegisterForm.propTypes = {
     
@@ -39,6 +40,7 @@ function RegisterForm(props) {
                 component={InputField}
                 label="Username"
                 placeholder="Enter your username"
+                required="true"
                 />
 
                 <FastField
@@ -46,6 +48,8 @@ function RegisterForm(props) {
                 component={InputField}
                 label="Password"
                 placeholder="Enter your password"
+                required="true"
+                type="password"
                 />
 
                 <FastField
@@ -53,14 +57,18 @@ function RegisterForm(props) {
                 component={InputField}
                 label="Full name"
                 placeholder="Enter your name"
+                required="true"
                 />
-
-                <FormGroup>
+                <Button variant="contained" color="primary" type="submit">
+                    {isSubmitting && <Spinner size="sm" />}
+                    Register
+                </Button>
+                {/* <FormGroup>
                     <Button color="primary" type="submit">
                         {isSubmitting && <Spinner size="sm" />}
                         Register
                     </Button>
-                </FormGroup>
+                </FormGroup> */}
             </Form>
             );
         }}
