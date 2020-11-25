@@ -14,6 +14,7 @@ import { getListCategory } from 'app/categorySlice';
 import Register from 'features/Auth/pages/Register';
 
 const Photo = React.lazy(() => import('./features/Photo'));
+const News = React.lazy(() => import('features/News'));
 
 // Configure Firebase.
 const config = {
@@ -83,6 +84,7 @@ function App() {
             <Route path="/photos" component={Photo} />
             <Route path="/sign-in" component={SignIn} />
             <Route path="/register" component={Register} />
+            <Route path="/news" component={News} />
             <Route component={NotFound} />
           </Switch>
         </BrowserRouter>

@@ -29,7 +29,7 @@ function PhotoList(props) {
 
     return (      
         <div className={classes.root}>
-            <Grid container spacing="4">
+            <Grid container spacing={4}>
             {
                 photoList.map(photo => (
                     <Grid item key={photo.title} xs='12' md='6' lg='3'>
